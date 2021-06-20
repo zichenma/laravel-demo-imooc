@@ -20,7 +20,10 @@ Route::get('/', function () {
 
 // Route::get('/home/hello', [HomeController::class, 'hello']);
 // 尽量不用 any
+
 Route::any('/home/hello', [HomeController::class, 'hello']);
+// 路由中间件
+// ->middleware('benchmark');
 
 
 // 重定向：
