@@ -36,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
-
+        // 路由分组： 分成 api 和 web, 可以自行添加 admin 等
         $this->routes(function () {
             Route::prefix('api')
                 ->middleware('api')
@@ -46,6 +46,12 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
+            // 需要在 routes 下创建 admin.php 并添加 admin 相关逻辑
+            // Route::middleware('admin')
+            //     ->namespace($this->namespace)
+            //     ->group(base_path('routes/admin.php'));
+            // 限制所有路由参数：
+            // Route:: pattern('id', '[0-9]+');
         });
     }
 
