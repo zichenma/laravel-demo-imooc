@@ -3,11 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//use App\Http\Middleware\Benchmark;
 
 
 class HomeController extends Controller {
+
+    public function __construct() {
+        // 注册中间件，并排除 hello, 只有 hello2 中间件会被调用
+        // $this->middleware(Benchmark::class, ['except'=>['hello']]);
+        // 仅用中间件
+        // $this->middleware(Benchmark::class, ['only'=>['hello']]);
+         // 中间件传参：
+        // $this->middleware('auth:admin,general');
+        $this->middleware('benchmark:test1,test2');
+    }
+
     public function hello() {
         return "Hello World!";
+    }
+    public function hello2() {
+        return "Hello2 World!";
     }
     /**
      * url : http://laravel.test/getOrder?id=1&name=cup

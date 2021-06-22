@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::any('/home/hello', [HomeController::class, 'hello']);
 // 路由中间件
 // ->middleware('benchmark');
-
+Route::any('/home/hello2', [HomeController::class, 'hello2']);
 
 // 重定向：
 Route::get('here', function(){
