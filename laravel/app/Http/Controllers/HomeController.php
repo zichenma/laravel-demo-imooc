@@ -26,7 +26,30 @@ class HomeController extends Controller {
         return "Hello2 World!";
     }
     public function dbTest() {
-        DB::select('select * from user');
+        // 查询：
+        // $users = DB::select('select * from users');
+        // 打印：
+        // dd($users);
+        // dd($users[0]->name); // "tanfan"
+        // 带参数 SQL:
+        // $users = DB::select('select * from users where id = ?', [1]);
+        // 一样：(这样就不用考虑参数的顺序)
+        // $users = DB::select('select * from users where id = :id', ['id' => 1]);
+
+        // 写入：
+        // $ret = DB::insert('insert into users (name,email,password) values (?,?,?)',['tanfan','tanfan@163.com','123456']);
+        // dd($ret); // true : 2	tanfan	tanfan@163.com	NULL	123456	NULL	NULL	NULL
+
+        // 更新：
+        // $ret = DB::update('update users set email = ? where id = ?', ['xxxx@163.com', 2]);
+        // dd($ret); // 1 这个返回的是行数
+
+        // $ret = DB::delete('delete from users where id = ?', [2]);
+        // dd($ret); // 0
+
+        // 修改表结构:
+        // DB::statement('drop table users');
+       
     }
     /**
      * url : http://laravel.test/getOrder?id=1&name=cup
