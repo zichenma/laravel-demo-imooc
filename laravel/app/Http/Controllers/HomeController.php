@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 //use App\Http\Middleware\Benchmark;
+use Illuminate\Support\Facades\DB;
 
 
 class HomeController extends Controller {
@@ -23,6 +24,9 @@ class HomeController extends Controller {
     }
     public function hello2() {
         return "Hello2 World!";
+    }
+    public function dbTest() {
+        DB::select('select * from user');
     }
     /**
      * url : http://laravel.test/getOrder?id=1&name=cup

@@ -83,3 +83,4 @@ Route::get('getUrl', function(){
     // 第一个参数是 name, 第二个参数是key:value，第三个参数是是否为绝对路径
     return \route('get.user',[], false);//可以获得url:  /getUser
 });
+Route::get('dbTest', [HomeController::class, 'dbTest']);

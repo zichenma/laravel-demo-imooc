@@ -45,21 +45,23 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
+            // 也可以在 .env 设置 DATABASE_URL 进行连接
+            // 'url' => env('DATABASE_URL'), 
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            'database' => env('DB_DATABASE', 'laravel'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', 'root'),
+            'unix_socket' => env('DB_SOCKET', ''), // socket 时候用 
+            'charset' => 'utf8mb4', // 支持 emoji
+            'collation' => 'utf8mb4_unicode_ci', //字符集对应排序方式
+            'prefix' => '', // 数据库前缀
+            'prefix_indexes' => true, //是不是要使用前缀
+            'strict' => true, // mysql 严格模式 e.g: 如果是非严格模式 “6” 能写入 int 下，但是严格模式则不行
+            'engine' => null, // 默认 innodb
+            // 加密证书
+            'options' => extension_loaded('pdo_mysql') ? array_filter([ 
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'), 
             ]) : [],
         ],
 
