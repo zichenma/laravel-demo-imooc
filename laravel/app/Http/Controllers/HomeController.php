@@ -49,6 +49,31 @@ class HomeController extends Controller {
 
         // 修改表结构:
         // DB::statement('drop table users');
+
+        // 用构造器查询：
+        // $user = DB::table('users')->where('id', 1)->get(); // 结果为 Collection
+        // find 主键为 1 
+        // $user = DB::table('users')->find(1); // 结果为对象
+        // 想要查到的第一个对象:
+        // $user = DB::table('users')->where('id', 1)->first(); // 结果为对象和find结果相同
+        // 查询对象的某一项：
+        // $user = DB::table('users')->where('id', 1)->value('name'); // "tanfan"
+        // 查询所有的数据：
+        // $user = DB::table('users')->get(); 
+        // 查询某一列：
+        // $user = DB::table('users')->pluck('email')->toArray(); 
+        // 分页：
+        // $user = DB::table('users')->paginate(2); 
+        // $user = DB::table('users')->simplePaginate(2); // 少了 total 与 paginate 比。
+        // 最大, 小, 平均... id: 
+        // $user = DB::table('users')->max('id'); // 1
+        // $user = DB::table('users')->min('id'); // 1
+        // $user = DB::table('users')->avg('id'); // 1
+        // $user = DB::table('users')->count('id'); // 1
+        // $user = DB::table('users')->sum('id'); // 1
+        // $user = DB::table('users')->where('id', 4)->exists(); // false
+        $user = DB::table('users')->where('id', 4)->doesntExist(); // true
+        dd($user);
        
     }
     /**
