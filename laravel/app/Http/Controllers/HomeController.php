@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //use App\Http\Middleware\Benchmark;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
+
 
 
 class HomeController extends Controller {
@@ -62,6 +64,7 @@ class HomeController extends Controller {
         // $user = DB::table('users')->get(); 
         // 查询某一列：
         // $user = DB::table('users')->pluck('email')->toArray(); 
+
         // 分页：
         // $user = DB::table('users')->paginate(2); 
         // $user = DB::table('users')->simplePaginate(2); // 少了 total 与 paginate 比。
@@ -72,9 +75,45 @@ class HomeController extends Controller {
         // $user = DB::table('users')->count('id'); // 1
         // $user = DB::table('users')->sum('id'); // 1
         // $user = DB::table('users')->where('id', 4)->exists(); // false
-        $user = DB::table('users')->where('id', 4)->doesntExist(); // true
-        dd($user);
-       
+        // $user = DB::table('users')->where('id', 4)->doesntExist(); // true
+         // dd($user);
+
+
+        // where 语句
+        // select * from users where id > 1;
+        // DB::table('users')->where('id','>',1)->dump(); // dump 打印这条语句
+
+        // select * from users where id <> 1; 不等于
+        // DB::table('users')->where('id','<>',1)->dump();
+        // DB::table('users')->where('id', '!=', 1)->dump();
+
+        // select * from users where name like 'tan%'; // 匹配前缀
+        // DB::table('users')->where('name','like', 'tan%')->dump();
+
+        // select * from users where id > 1 or name like 'tan%';
+        // DB::table('users')->where('id','>',1)->orWhere('name', 'like', 'tan%')->dump();
+
+        // select * from users where id > 1 and (email like '%@163' or name like 'tan%'); 用括号时候，需要用闭包方式写
+        // DB::table('users')->where('id','>',1)->where(function(Builder $query){
+        //     $query->where('email','like','%@163')
+        //     ->orWhere('name', 'like', '%@tan');
+        // })->dump();
+
+        // select * from users where id in (1, 3);
+        // DB::table('users')->whereIn('id', [1,3])->dump();
+
+        // select * from users where id not in (1, 3);
+        // DB::table('users')->whereNotIn('id', [1,3])->dump();
+
+        // select * from users where created_at is null;
+        // DB::table('users')->whereNull('craeted_at')->dump();
+
+        // select * from users where created_at is not null;
+        // DB::table('users')->whereNotNull('craeted_at')->dump();
+     
+        // select * from users where 'name' = 'email'; 比较字段
+        DB::table('users')->whereColumn('name', 'email')->dump();
+
     }
     /**
      * url : http://laravel.test/getOrder?id=1&name=cup
