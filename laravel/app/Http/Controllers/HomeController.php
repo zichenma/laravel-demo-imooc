@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 //use App\Http\Middleware\Benchmark;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 
 
@@ -28,7 +30,7 @@ class HomeController extends Controller {
         return "Hello2 World!";
     }
     public function dbTest() {
-        // 查询：
+        // **查询：
         // $users = DB::select('select * from users');
         // 打印：
         // dd($users);
@@ -38,18 +40,18 @@ class HomeController extends Controller {
         // 一样：(这样就不用考虑参数的顺序)
         // $users = DB::select('select * from users where id = :id', ['id' => 1]);
 
-        // 写入：
+        // **写入：
         // $ret = DB::insert('insert into users (name,email,password) values (?,?,?)',['tanfan','tanfan@163.com','123456']);
         // dd($ret); // true : 2	tanfan	tanfan@163.com	NULL	123456	NULL	NULL	NULL
 
-        // 更新：
+        // **更新：
         // $ret = DB::update('update users set email = ? where id = ?', ['xxxx@163.com', 2]);
         // dd($ret); // 1 这个返回的是行数
 
         // $ret = DB::delete('delete from users where id = ?', [2]);
         // dd($ret); // 0
 
-        // 修改表结构:
+        // **修改表结构:
         // DB::statement('drop table users');
 
         // 用构造器查询：
@@ -65,7 +67,7 @@ class HomeController extends Controller {
         // 查询某一列：
         // $user = DB::table('users')->pluck('email')->toArray(); 
 
-        // 分页：
+        // **分页：
         // $user = DB::table('users')->paginate(2); 
         // $user = DB::table('users')->simplePaginate(2); // 少了 total 与 paginate 比。
         // 最大, 小, 平均... id: 
@@ -79,7 +81,7 @@ class HomeController extends Controller {
          // dd($user);
 
 
-        // where 语句
+        // **where 语句
         // select * from users where id > 1;
         // DB::table('users')->where('id','>',1)->dump(); // dump 打印这条语句
 
@@ -112,8 +114,107 @@ class HomeController extends Controller {
         // DB::table('users')->whereNotNull('craeted_at')->dump();
      
         // select * from users where 'name' = 'email'; 比较字段
-        DB::table('users')->whereColumn('name', 'email')->dump();
+        //DB::table('users')->whereColumn('name', 'email')->dump();
 
+        // **新增:
+
+        // 插入单条数据：
+        // $ret = DB::table('users')->insert([
+        //     'name' => 'name1',
+        //     'password' => Hash::make('123456'),
+        //     'email' => 'name1@163.com'
+        // ]);
+        // dd($ret); // true
+
+        // 批量插入数据：
+
+        // $ret = DB::table('users')->insert([
+        //     [
+        //         'name' => 'name2',
+        //         'password' => Hash::make('123456'),
+        //         'email' => 'name2@163.com'
+        //     ],
+        //     [
+        //         'name' => 'name3',
+        //         'password' => Hash::make('123456'),
+        //         'email' => 'name3@163.com'
+        //     ],
+        // ]);
+        
+        // 指定 id : insertOrIgnore 忽略主键冲突
+
+        // $ret = DB::table('users')->insertOrIgnore([
+        //     'id' => 4,
+        //     'name' => 'name1',
+        //     'password' => Hash::make('123456'),
+        //     'email' => 'name1@163.com'
+        // ]);
+        // dd($ret); // 0 没有写入成功
+        
+        // 写入后立即拿到 id: 
+
+        // $ret = DB::table('users')->insertGetId([
+        //     'name' => 'name4',
+        //     'password' => Hash::make('123456'),
+        //     'email' => 'name4@163.com'
+        // ]);
+
+        // dd($ret); // 8
+
+        // **更新数据：
+        // $ret = DB::table('users')->where('id', 8)->update(['name' => 'tom', 'email' => 'tom@163.com']);
+        // dd($ret); // 1 返回 int 为更新的条数
+        
+        // 如果数据存在则修改,不存在则写入
+        // $ret = DB::table('users')->updateOrInsert(
+        //     ['id' => 10], // 查询
+        //     [ // 更新/写入：
+        //         'name' => 'name6',
+        //         'email' => 'name6@163.com',
+        //         'password' => Hash::make('123')
+        //     ]
+        // );
+        // dd($ret);
+
+        // 主意命名规范： add(create, update, remove)_{columnName}_to_{tableName}_table
+        // php artisan make:migration add_score_to_users_table
+        // 用docker时候做数据库更新（php artisan migrate）的时候需要将 DB_HOST=mysql 改成： DB_HOST=127.0.0.1 在 laravel 的 .env 文件里
+        
+        // 自增自减参数：
+
+        // $ret = DB::table('users')->where('id', '7')->increment('score', 10);
+        // dd($ret); // 把当前 id 为 7 的数据，score 每次自增 10
+
+        // $ret = DB::table('users')->where('id', '7')->decrement('score', 10);
+        // dd($ret); // 把当前 id 为 7 的数据，score 每次自减 10
+
+        // **删除
+        // $ret = DB::table('users')->where('id', 7)->delete();
+        // dd($ret);
+
+        // **事务 (transaction)
+        // 1.闭包，自动提交，回滚
+        // 开启一个事务，执行语句，如有异常 （所有语句都不会执行成功），则回滚
+        
+        // $ret = DB::transaction(function() {
+        //     DB::table('users')->where('id', 4)->update(['name' => Str::random()]);
+        //     throw new \Exception(); // 如果有 exception 两条都不会执行成功
+        //     DB::table('users')->where('id', 5)->update(['name' => Str::random()]);
+        // });
+
+        // 2. 手动，自行提交，回滚 (效果一样，但更灵活，可以控制何时提交何时 rollback)
+        // try{
+        //     DB::beginTransaction();
+
+        //     DB::table('users')->where('id', 4)->update(['name' => Str::random()]);
+        //     DB::table('users')->where('id', 5)->update(['name' => Str::random()]);
+
+        //     DB::commit();
+        // }catch(\Exception $exception) {
+        //     DB::rollBack();
+        // }
+       
+        //dd($ret);
     }
     /**
      * url : http://laravel.test/getOrder?id=1&name=cup
