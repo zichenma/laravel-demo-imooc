@@ -85,3 +85,4 @@ Route::get('getUrl', function(){
 });
 Route::get('dbTest', [HomeController::class, 'dbTest']);
 Route::get('modelTest', [HomeController::class, 'modelTest']);
+Route::get('modelTest', [HomeController::class, 'collectionTest']);

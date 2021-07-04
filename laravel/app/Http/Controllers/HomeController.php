@@ -343,4 +343,120 @@ class HomeController extends Controller {
         // $ret = $product->delete(); // 如果是软删除，则数据新加一条时间戳， deleted_at
         // dd($ret); // true
     }
+
+    public function collectionTest() {
+        // 数组转换成集合
+        // $collect = collect([1,2,3]);
+        // dd($collect);
+
+        // 集合转数组
+        // dd($collect->toArray());
+        // dd($collect->all());
+
+        // 键值对数组:
+        // $collect = collect(['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3']);
+        // 获取 key, value
+        // $keys=$collect->keys()->toArray();
+        // $values=$collect->values()->toArray();
+        // dd($keys, $values);
+
+        // 获取最后一个元素：
+        // dd($collect->last()); //最后一对的值： v3
+        // $collect->only(['k1', 'k2'])->dump(); // 打印 k1,k2 键值对 
+       
+        // 获取值：
+        // $product = Product::all(); // 获取数据库所有数据
+        // 拿一列:
+        // $product->pluck('title')->dump();
+        // 拿前两条：
+        // $product->take(2)->dump();
+        // 专成 json:
+        // dd($product->toJson());
+        // 调取 title 并用逗号分离:
+        // 法一：
+        // $ret = $product->pluck('title')->implode(','); // string of titles : "cup2,cup23,cup4" 
+        // 法二：
+        // $ret = $product->pluck('title')->toArray();
+        // $ret = implode(',', $ret); // string of titles : "cup2,cup23,cup4" 
+        // dd($ret); 
+
+        // 聚合运算：
+        // $product = Product::all()->pluck('price');
+        // $product->count();
+        // $product->sum();
+        // $product->average();
+        // $product->max();
+        // $product->min();
+
+        //查找判断
+            // $exists = collect(['v1', 'v2', 'v3'])->contains('v2'); // true
+            // array_diff
+            // collect([1,2,3])->diff([2,3])->dd();
+            // $collect = collect(['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3']);
+            // 查找是否有 key
+            // $is = $collect->has('k1'); // true
+            // dd($is);
+            // 判空： 集合不能用 empty 判断空，必须用 isEmpty
+            // $collect = collect([]);
+            // dd($collect->isEmpty()); // true
+            
+            // 查找 ID 为 1:
+            // $product = Product::all();
+            // $pro = $product->where('id', 3);
+            // dd($pro);
+
+        // 遍历：
+        $products = Product::all();
+        // $products->each(function($item) {
+        //     var_dump($item -> id); // int(2) int(3) int(4)
+        // });
+        // $ret = $products->map(function($item) {
+        //     return $item -> id; 
+        // });
+        // dd($products, $ret->toArray()); 
+        //     //     array:3 [▼
+        //     //     0 => 2
+        //     //     1 => 3
+        //     //     2 => 4
+        //     //   ]
+        // keyBy:
+        // $keyBy = $products->keyBy('id')->toArray(); // 把 id 当作 key，重新建立map关系，转换成 array
+        // dd($products->toArray(), $keyBy);
+        // 把所有数据根据 catagory_id 进行分组
+        // groupBy:
+        // $group = $products->groupBy('category_id');
+        // dd($group->toArray());
+        // array:1 [▼
+        // 1 => array:3 [▼
+        //     0 => array:10 [▶]
+        //     1 => array:10 [▶]
+        //     2 => array:10 [▶]
+        //     ]
+        // ]
+        // filter:
+        // $products -> filter(function($item){
+        //     return $item->id > 3;
+        // })->dd();
+     
+       //对数组本身方法进行
+       // $collect = collect(['k1' => 'v1', 'k2' => 'v2', 'k3' => 'v3']);
+       // flip : key 与 value 互换
+       // dd($collect->flip()->toArray());
+       // dd($collect->reverse()->toArray());
+       // sort:
+       // collect([4,3,2,1])->sort()->dd(); // 1,2,3,4
+       // collect([1,2,3,4])->sortDesc()->dd(); // 4,3,2,1
+    //    $prodcuts = Product::all();
+    //    $prodcuts->sortBy('price')->dd();
+    //    $prodcuts->sortByDesc('price')->dd();
+    //    $prodcuts->sortBy('price', function($product) {
+    //         return $product->price;
+    //    })->dd();
+    // combine 可以生成一个新的 key:value 数组: [{k1 : v1}, {k2 : v2}];
+       //  collect(['k1', 'k2'])->combine(['v1', 'v2'])->dd();
+       // 枚举所有 k1,v1,k2,v2 的可能： 
+       // collect(['k1', 'k2'])->crossJoin(['v1', 'v2'])->dd();
+
+
+    }
 }
