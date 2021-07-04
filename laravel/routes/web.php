@@ -84,3 +84,4 @@ Route::get('getUrl', function(){
     return \route('get.user',[], false);//可以获得url:  /getUser
 });
 Route::get('dbTest', [HomeController::class, 'dbTest']);
+Route::get('modelTest', [HomeController::class, 'modelTest']);

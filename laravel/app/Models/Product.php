@@ -25,4 +25,18 @@ class Product extends Model
     protected $casts = [
         'attr' => 'array'
     ];
+
+    // 白名单（允许数据填充）：
+    // 必须要规定可填充字段，要不则报错：
+    // Add [title] to fillable property to allow mass assignment on [App\Models\Product].
+    // http://laravel.test/modelTest
+    protected $fillable = [
+        'title',
+        'category_id',
+        'is_on_sale',
+        'price',
+        'attr',
+    ];
+    // 如果仅仅定义了黑名单，并且数组为空，则允许所有字段填充
+    // protected $guarded = [];
 }
