@@ -320,11 +320,27 @@ class HomeController extends Controller {
         // $product->save();
         // dd($product);
 
-        // 查询检索
+        // 查询检索, 参考查询构造器
         // $product = Product::all(); // 返回了一个 Collection 对象
         // 一样： 
         // $product = Product::query()->get();
         // $product = Prodcut::query()->where('is_on_sale', 1)->get();
         // dd($product); 
+        
+        // 更新数据
+        // Product::query()->where('id', 1)->update(['is_on_sale' => 0]);
+        // $product = Product::query()->find(1);
+        // $product->title='Fancy Cup';
+        // $product->save();
+        // dd($product);
+
+        // 删除
+        // $product = Product::query()->find(2);
+        // dd($product); // 如果是软删除后，查询结果为 null
+        // $product = Product::withTrashed()->find(2); // 软删除后还可以找回数据
+        // dd($product);
+        // $product->restore(); // deleted_at => null
+        // $ret = $product->delete(); // 如果是软删除，则数据新加一条时间戳， deleted_at
+        // dd($ret); // true
     }
 }

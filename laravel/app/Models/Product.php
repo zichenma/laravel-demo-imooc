@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\softDeletes;
 
 class Product extends Model
 {
     use HasFactory;
+    use softDeletes; // 软删除
     // 约定大于配置：
     // 如果都遵循约定，可以完全使用默认配置
   
@@ -37,6 +39,7 @@ class Product extends Model
         'price',
         'attr',
     ];
+    // 黑白名单不能同时出现!!!
     // 如果仅仅定义了黑名单，并且数组为空，则允许所有字段填充
     // protected $guarded = [];
 }
