@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 
@@ -456,7 +457,56 @@ class HomeController extends Controller {
        //  collect(['k1', 'k2'])->combine(['v1', 'v2'])->dd();
        // 枚举所有 k1,v1,k2,v2 的可能： 
        // collect(['k1', 'k2'])->crossJoin(['v1', 'v2'])->dd();
+    }
 
+    public function cacheTest() {
+        // 设置缓存
+        // 1. put: key, value, 过期时间 (如果没有，则永久有效)
+        // Cache::put('key1', 'value1', 10);
+        // Cache::put('key2', 'value2');
+        // Cache::put('key3', 'value3', now()->addMinutes(1));
+        // 判断缓存是否存在
+        // Cache::has('key3');
+        // 2. Add: 如果 key 存在，则存储失败
+        // $is = Cache::add('key2', 'value', 10); // false
+        // $is = Cache::add('key4', 'value', 10); // true
+        // 3. 永久缓存， 没有过期时间, 一般不推荐
+        // Cache::forever('key5', 'value5');
+
+        // 获取缓存
+        // 缓存不存在，可以把第二个参数设置成默认值
+        // $v1 = Cache::get('key1', 'default1');
+        // $v2 = Cache::get('key2', 'default2');
+        // $v3 = Cache::get('key3', 'default3');
+
+        // 删除缓存
+        // Cache::forget('key2');
+        // Cache::put('key5', '', 0);
+
+        // 在某一个键值上累加 (默认是 1，可以不填）：
+        // Cache::increment('key6', 1);
+        // Cache::increment('key6', 1);
+        // Cache::decrement('key6', 1);
+        // $v6 = Cache::get('key6'); 
+        
+        // 获取并删除
+        // Cache::forever('key7', 'value7');
+        // $v7 = Cache::pull('key7');
+        
+        // 获取缓存，缓存失效自动获取数据
+        // remeber 会自动查询 cache, 如果不存在就会执行闭包， 存储缓存
+        // Cache::remember('key8', 60, function(){
+            // todo...
+            // return ['xxx'];
+        // });
+        // 相当于： 
+        // $cache = Cache::get('key8');
+        // if (is_null($cache)) {
+        //     // todo...
+        //     $cache = ['xxx'];
+        //     Cache::put('key8', $cache, 60);
+        // }
+        //dd($v1, $v2, $v3);
 
     }
 }
