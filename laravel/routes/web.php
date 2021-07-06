@@ -87,3 +87,5 @@ Route::get('dbTest', [HomeController::class, 'dbTest']);
 Route::get('modelTest', [HomeController::class, 'modelTest']);
 Route::get('modelTest', [HomeController::class, 'collectionTest']);
 Route::get('cacheTest', [HomeController::class, 'cacheTest']);
+Route::get('facadeTest', [HomeController::class, 'facadeTest']);
+

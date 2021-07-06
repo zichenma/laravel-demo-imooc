@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Product;
 use Illuminate\Http\Request;
 //use App\Http\Middleware\Benchmark;
 use Illuminate\Support\Facades\DB;
-use App\Models\Product;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
@@ -407,7 +407,7 @@ class HomeController extends Controller {
             // dd($pro);
 
         // 遍历：
-        $products = Product::all();
+        // $products = Product::all();
         // $products->each(function($item) {
         //     var_dump($item -> id); // int(2) int(3) int(4)
         // });
@@ -508,5 +508,8 @@ class HomeController extends Controller {
         // }
         //dd($v1, $v2, $v3);
 
+    }
+    public function facadeTest() {
+        Product::getProduct(1);
     }
 }

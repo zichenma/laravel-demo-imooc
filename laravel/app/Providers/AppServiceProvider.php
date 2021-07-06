@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\ProductService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        //给一个别名，然后调用闭包， new 一个 class
+        $this->app->singleton('product', function () {
+            return new ProductService();
+        });
     }
 
     /**
